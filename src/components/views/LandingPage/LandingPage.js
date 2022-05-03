@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-
+import {withRouter} from "react-router-dom";
 const LandingPage = () => {
     return (
         <div style={{display: 'flex', justifyContent:'center', alignItems:'center',
@@ -9,4 +9,4 @@ const LandingPage = () => {
     );
 };
 
-export default LandingPage;
+export default LandingPage

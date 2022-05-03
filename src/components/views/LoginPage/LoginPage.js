@@ -1,26 +1,33 @@
 import React, {useState} from 'react';
 import {useDispatch} from "react-redux";
 import {loginUser} from "../../../_actions/user_action";
+import {SUCCESS_CODE} from "../../../_actions/types";
+import {useHistory} from "react-router-dom";
+
 const LoginPage = () => {
 
     const dispatch = useDispatch();
+    const history = useHistory();
 
-    const [Email, setEmail] = useState("");
+    const [Username, setUsername] = useState("");
     const [Password, setPassword] = useState("");
 
-    const onEmailHandler = (e) => setEmail(e.currentTarget.value)
-    const onPasswordHandler = (e) => setPassword(e.currentTarget.value)
+    const onEmailHandler = e => setUsername(e.currentTarget.value)
+    const onPasswordHandler = e => setPassword(e.currentTarget.value)
     const onSubmitHandler = e => {
         e.preventDefault()
-        console.log('Email', Email);
-        console.log('Password', Password);
-
         let body = {
-            email: Email,
+            username: Username,
             password : Password
         }
-
         dispatch(loginUser(body))
+            .then(response => {
+                if (response.payload.code === SUCCESS_CODE){
+                    history.push('/nav')
+                }else {
+                    alert('Error')
+                }
+            })
     }
 
     return (
@@ -29,8 +36,8 @@ const LoginPage = () => {
             <form style={{ display:'flex', flexDirection:'column'}}
                 onSubmit={onSubmitHandler}
             >
-                <label>Email</label>
-                <input type={"email"} value={Email} onChange={onEmailHandler}/>
+                <label>Username</label>
+                <input type={"text"} value={Username} onChange={onEmailHandler}/>
                 <label>Password</label>
                 <input type={"password"} value={Password} onChange={onPasswordHandler}/>
                 <br />
